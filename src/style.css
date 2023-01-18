@@ -18,8 +18,8 @@ body {
 }
 
 .search-form__input {
-  padding: 8px;
-  border-radius: 4px;
+  padding: 12px;
+  border-radius: 20px;
   border-color: darksalmon;
 }
 
@@ -27,17 +27,35 @@ body {
   border-color: lightcoral;
 }
 
-.search-form__btn {
+.button {
   padding: 12px 32px;
   border: none;
-  border-radius: 4px;
+  border-radius: 30px;
   background-color: darksalmon;
   color: #fff;
   font-size: inherit;
   cursor: pointer;
 }
 
-.search-form__btn:focus,
-.search-form__btn:hover {
+.button:focus,
+.button:hover {
   background-color: lightcoral;
+}
+
+.load-more {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.load-more.is-hidden {
+  opacity: 1;
+  pointer-events: painted;
+  visibility: visible;
 }
