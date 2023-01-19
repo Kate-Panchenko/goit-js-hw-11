@@ -1,6 +1,7 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { fetchData } from './fetch-data';
-
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 
 
 const refs = {
@@ -12,7 +13,6 @@ const refs = {
 };
 
 let page = '';
-let amountContent = '';
 
 refs.searchForm.addEventListener("submit", onFormSubmit);
 
@@ -21,7 +21,6 @@ refs.searchForm.addEventListener("submit", onFormSubmit);
 function onFormSubmit(evt) {
     evt.preventDefault();
     refs.loadMoreBtn.classList.remove(".is-hidden");
-    resetSearch();
 
     const inputValue = evt.currentTarget.elements.searchQuery.value;
     page = 1;
@@ -31,11 +30,16 @@ function onFormSubmit(evt) {
         return Notify.info('Sorry, there are no images matching your search query. Please try again.');
     }
 
-    fetchData(inputValue, page, amountContent).then(showGallery).catch(onError);
+    fetchData(inputValue, page).then(obj => showGallery(obj)).catch(err => console.log(err));
+    resetSearch();
 }
 
-function showGallery() {
-    
+function showGallery(obj) {
+    const images = obj.data.hits;
+    const galleryMarkup = images.map(img => createMarkupGalleryItem(img)).join("");
+    refs.gallery.insertAdjacentHTML("beforeend", galleryMarkup);
+    Notify.success(`Hooray! We found ${obj.data.totalHits} images.`)
+
 }
 
 // Reset Gallery
@@ -49,4 +53,27 @@ function resetSearch(page) {
 // Fetch Error
 function onError() {
     return Notify.failure("We're sorry, but you've reached the end of search results.")
+}
+
+
+function createMarkupGalleryItem({ largeImageURL, webformatURL, tags, likes, views, comments, downloads }) {
+    return `<a href="${largeImageURL}">
+    <div class="photo-card">
+  <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+  <div class="info">
+    <p class="info-item">
+      <b>Likes ${likes}</b>
+    </p>
+    <p class="info-item">
+      <b>Views ${views}</b>
+    </p>
+    <p class="info-item">
+      <b>Comments ${comments}</b>
+    </p>
+    <p class="info-item">
+      <b>Downloads ${downloads}</b>
+    </p>
+  </div>
+</div>
+</a>`
 }
