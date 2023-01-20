@@ -7,6 +7,11 @@ body {
   padding: 0;
   background-color: antiquewhite;
 }
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
 
 .search-form {
   display: flex;
@@ -45,6 +50,7 @@ body {
 .load-more {
   margin-left: auto;
   margin-right: auto;
+  margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,4 +64,35 @@ body {
   opacity: 1;
   pointer-events: painted;
   visibility: visible;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.photo-card {
+  flex-basis: calc((100% - 60px) / 3);
+  border-radius: 4px;
+  background-color: bisque;
+}
+
+.galery-img {
+  object-fit: cover;
+  height: 250px;
+  border-radius: 4px;
+}
+
+.info {
+  padding: 10px;
+}
+
+.img-url {
+  text-decoration: none;
+  font-weight: 800;
+  color: brown;
 }

@@ -15,7 +15,7 @@ const refs = {
 let page = '';
 
 refs.searchForm.addEventListener("submit", onFormSubmit);
-
+// refs.loadMoreBtn.addEventListener("click", onLoadMorePictures)
 
 
 function onFormSubmit(evt) {
@@ -31,16 +31,22 @@ function onFormSubmit(evt) {
     }
 
     fetchData(inputValue, page).then(obj => showGallery(obj)).catch(err => console.log(err));
-    resetSearch();
+    // resetSearch();
 }
 
 function showGallery(obj) {
     const images = obj.data.hits;
     const galleryMarkup = images.map(img => createMarkupGalleryItem(img)).join("");
     refs.gallery.insertAdjacentHTML("beforeend", galleryMarkup);
-    Notify.success(`Hooray! We found ${obj.data.totalHits} images.`)
-
+    Notify.success(`Hooray! We found ${obj.data.totalHits} images.`);
+    refs.loadMoreBtn.classList.add('is-hidden');
 }
+
+// function onLoadMorePictures(evt) {
+//   const inputValue = evt.searchForm.elements.searchQuery.value;
+//   page += 1;
+//   fetchData(inputValue, page).then(obj => showGallery(obj)).catch(err => console.log(err));
+// }
 
 // Reset Gallery
 function resetSearch(page) {
@@ -57,21 +63,21 @@ function onError() {
 
 
 function createMarkupGalleryItem({ largeImageURL, webformatURL, tags, likes, views, comments, downloads }) {
-    return `<a href="${largeImageURL}">
+    return `<a class="img-url" href="${largeImageURL}">
     <div class="photo-card">
-  <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+  <img class="galery-img" src="${webformatURL}" width="370" alt="${tags}" loading="lazy" />
   <div class="info">
     <p class="info-item">
-      <b>Likes ${likes}</b>
+      <b>Likes: ${likes}</b>
     </p>
     <p class="info-item">
-      <b>Views ${views}</b>
+      <b>Views: ${views}</b>
     </p>
     <p class="info-item">
-      <b>Comments ${comments}</b>
+      <b>Comments: ${comments}</b>
     </p>
     <p class="info-item">
-      <b>Downloads ${downloads}</b>
+      <b>Downloads: ${downloads}</b>
     </p>
   </div>
 </div>
