@@ -41,6 +41,10 @@ function showGallery(obj) {
     refs.loadMoreBtn.classList.add('is-hidden');
     
     new SimpleLightbox('.gallery a');
+  
+    if (images.length === 0) {
+      Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+    }
 
     if (window.pageYOffset > 200) {
       return smoothScroll();
@@ -58,6 +62,7 @@ function showGallery(obj) {
 function onLoadMorePictures() {
   const inputValue = refs.searchForm.elements.searchQuery.value;
   page += 1;
+
   fetchData(inputValue, page)
     .then(obj => {
       showGallery(obj);
